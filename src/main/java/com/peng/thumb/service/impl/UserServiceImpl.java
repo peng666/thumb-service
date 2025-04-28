@@ -1,9 +1,11 @@
 package com.peng.thumb.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.peng.thumb.constant.UserConstant;
 import com.peng.thumb.model.entity.User;
 import com.peng.thumb.service.UserService;
 import com.peng.thumb.mapper.UserMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +17,10 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
 
+    @Override
+    public User getLoginUser(HttpServletRequest request) {
+        return (User) request.getSession().getAttribute(UserConstant.LOGIN_USER);
+    }
 }
 
 

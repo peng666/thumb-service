@@ -6,7 +6,7 @@ spring:
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: 127.0.0.1:3306
+    url: jdbc:mysql://127.0.0.1:3306/thumb_db
     username: root
     password: root
 knife4j:
