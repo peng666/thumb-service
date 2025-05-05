@@ -33,7 +33,7 @@ import java.util.Arrays;
  * @description 针对表【thumb】的数据库操作Service实现
  * @createDate 2025-04-27 01:38:39
  */
-@Service("thumbService")
+@Service("thumbServiceRedis")
 @Slf4j
 @RequiredArgsConstructor
 public class ThumbServiceRedisImpl extends ServiceImpl<ThumbMapper, Thumb>
