@@ -22,7 +22,7 @@ public class SyncThumb2DBCompensatoryJob {
     @Resource
     private SyncThumb2DBJob syncThumb2DBJob;
 
-    @Scheduled(cron = "0 0 2 * * *")
+//    @Scheduled(cron = "0 0 2 * * *")
     public void run() {
         log.info("开始补偿任务");
         Set<String> thumbKeys = redisTemplate.keys(RedisKeyUtil.getTempThumbKey("") + "*"); // 查出所有的key

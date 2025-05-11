@@ -52,4 +52,40 @@ public class RedisLuaScriptConstant {
             return 1  -- 返回1表示成功
             """, Long.class
     );
+
+    /**
+     * 点赞Lua脚本 用于MQ消费的脚本
+     * keys[1] 用户点赞状态键
+     * ARGV[1] 博客ID
+     */
+    public static final RedisScript<Long> THUMB_SCRIPT_MQ = new DefaultRedisScript<>("""
+            local userThumbKey=KEYS[1] -- 用户点赞状态键
+            local blogId = ARGV[1]      -- 博客ID
+                        
+            -- 1.检是否已经点赞
+            if redis.call('HEXISTS', userThumbKey, blogId) == 1 then
+                return -1
+            end
+
+            -- 2. 原子性更新，添加点赞记录
+            redis.call('HSET', userThumbKey, blogId, 1)
+            return 1  -- 返回1表示成功
+            """, Long.class);
+
+    /**
+     * 取消点赞Lua脚本 用于MQ消费的脚本
+     * keys[1] 用户点赞状态键
+     * ARGV[1] 博客ID
+     */
+    public static final RedisScript<Long> UNTHUMB_SCRIPT_MQ = new DefaultRedisScript<>("""
+            local userThumbKey=KEYS[1] -- 用户点赞状态键
+            local blogId = ARGV[1]      -- 博客ID
+            -- 1.检是否已经点赞
+            if redis.call('HEXISTS', userThumbKey, blogId) ~= 1 then
+                return -1
+            end
+            -- 2. 原子性更新，删除点赞记录
+            redis.call('HDEL', userThumbKey, blogId)
+            return 1  -- 返回1表示成功
+            """, Long.class);
 }
